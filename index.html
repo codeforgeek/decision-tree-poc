@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Decision Tree POC</title>
+    <script src='https://code.jquery.com/jquery-1.12.4.min.js'></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/treant-js-master/Treant.css" type="text/css"/>
+    <script src="/treant-js-master/vendor/raphael.js"></script>
+    <script src="/treant-js-master/Treant.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#decisiontreetest').hide();
+        $('#saveresult').hide();
+        $('#runwiththisresult').hide();
+        $('#executewithmaster').hide();
+        $('#executewithmasterresult').hide();
+        $('#test1result').hide();
+        $('#test2result').hide();
+        $('#execute').click(function(e) {
+          $('#rundecisiontree').hide();
+          $('#executewithmasterresult').hide();
+          $('#decisiontreetest').hide();
+          $('#execute').hide();
+         child1 = {
+              parent: parent_node,
+              text: { name: "UPC MATCH" }
+          };
+          child2 = {
+            parent: child1,
+            text: {name: "2 rows"}
+          };
+          simple_chart_config.push(child1);
+          simple_chart_config.push(child2);
+          my_chart.tree.reload();
+          $('#runwiththisresult').show();
+          $('#executewithmaster').show();
+          $('#test1result').show();
+        });
+
+        $('#executewithmaster').click(function(e) {
+          $('#decisiontreetest').hide();
+          $('#executewithmasterresult').hide();
+          $('#test1result').hide();
+          $('#test2result').hide();
+          child5 = {
+              parent: parent_node,
+              text: { name: "Name Match" }
+          };
+          child6 = {
+            parent: child5,
+            text: {name: "1 row"}
+          };
+          simple_chart_config.push(child5);
+          simple_chart_config.push(child6);
+          my_chart.tree.reload();
+          $('#test1result').hide();
+          $('#runwiththisresult').hide();
+          $('#executewithmasterresult').show();
+        });
+
+        $('#saveresult').click(function(e) {
+          alert('decision tree saved!');
+          $('#decisiontreetest').hide();
+          $('#saveresult').hide();
+          $('#runwiththisresult').hide();
+          $('#executewithmaster').hide();
+          $('#executewithmasterresult').hide();
+          $('#test1result').hide();
+          $('#test2result').hide();
+          $('#execute').show();
+          $('#rundecisiontree').show();
+        });
+
+        $('#rundecisiontree').click(function(e) {
+          $('#test1result').hide();
+          $('#test2result').hide();
+          $('#runwiththisresult').hide();
+          $('#decisiontreetest').show();
+          $('#executewithmasterresult').show();
+        });
+
+        $('#runwiththisresult').click(function(e) {
+          $('#decisiontreetest').hide();
+          $('#executewithmasterresult').hide();
+          $('#test1result').hide();
+          child3 = {
+              parent: child2,
+              text: { name: "Name Match" }
+          };
+          child4 = {
+            parent: child3,
+            text: {name: "1 row"}
+          };
+          simple_chart_config.push(child3);
+          simple_chart_config.push(child4);
+          new Treant(simple_chart_config);
+          $('#test2result').show();
+          $('#saveresult').show();
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="row">
+  <div class="col-md-8">
+    <h3>Vendor data</h3>
+    <table class="table table-condensed">
+      <tr>
+        <th>#</th>
+        <th>UPC</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+      </tr>
+      <tr class="table table-active">
+        <td>1</td>
+        <td>140564571245678</td>
+        <td>DJI Mavic pro</td>
+        <td>1499$</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>140554571245688</td>
+        <td>DJI Phantom 4</td>
+        <td>$899</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>140563571249678</td>
+        <td>GoPro Karma</td>
+        <td>1799$</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>120964871245678</td>
+        <td>MJX 1010</td>
+        <td>$99</td>
+        <td>1</td>
+      </tr>
+    </table>
+    <div class='row'>
+      <div class='col-md-4' id='decisiontreetest'>
+        <table class="table table-condensed">
+          <tr>
+            <th>Executing Tests</th>
+          </tr>
+          <tr>
+            <td>Executing UPC Match .... 2 Result found!</td></tr>
+            <tr><td>Executing Name Match ... 1 Result found!</td></tr>
+            <tr><td>Preparing Result ...</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='col-md-4' id='test1result'>
+        <h4>Result</h4>
+        <table class="table table-condensed">
+          <tr>
+            <th>#</th>
+            <th>UPC</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>140564571245678</td>
+            <td>DJI Mavic pro</td>
+            <td>1499$</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>140554571245688</td>
+            <td>DJI Phantom 4</td>
+            <td>$899</td>
+            <td>1</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='col-md-4' id='test2result'>
+        <h4>Result</h4>
+        <table class="table table-condensed">
+          <tr>
+            <th>#</th>
+            <th>UPC</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>140564571245678</td>
+            <td>DJI Mavic pro</td>
+            <td>1499$</td>
+            <td>2</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='col-md-4' id='executewithmasterresult'>
+        <h4>Result</h4>
+        <table class="table table-condensed">
+          <tr>
+            <th>#</th>
+            <th>UPC</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>140554571245688</td>
+            <td>DJI Phantom 4</td>
+            <td>$899</td>
+            <td>1</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class='row'>
+      <div class="col-md-1">
+        <div class="input-group">
+          <span class="input-group-addon">
+            UPC Match
+            <input type="checkbox" aria-label="">
+          </span>
+        </div>
+        <p></p>
+        <div class="input-group">
+          <span class="input-group-addon">
+            Name Match
+            <input type="checkbox" aria-label="">
+          </span>
+        </div>
+        <p></p>
+        <div class="input-group">
+          <span class="input-group-addon">
+            Price Range
+            <input type="checkbox" aria-label="">
+          </span>
+        </div>
+      </div>
+    </div>
+    <center>
+      <a class="btn btn-primary btn-lg" href="#" role="button" id='execute'>Execute the test</a>
+      <br><br>
+      <a class="btn btn-primary btn-lg" href="#" role="button" id='runwiththisresult'>Run next test with this result</a>
+      <a class="btn btn-primary btn-lg" href="#" role="button" id='executewithmaster'>Run next test with master data</a>
+
+      <a class="btn btn-primary btn-lg" href="#" role="button" id='rundecisiontree'>Run Decision Tree</a>
+      <a class="btn btn-primary btn-lg" href="#" role="button" id='saveresult'>Save Result</a>
+    </center>
+  </div>
+  <div class="col-md-4">
+    <div class="chart" id="basic-example"></div>
+  </div>
+</div>
+<script>
+  config = {
+    container: "#basic-example"
+  };
+  parent_node = {
+      text: { name: "NULL" }
+  };
+  simple_chart_config = [
+      config, parent_node
+    ];
+   my_chart = new Treant(simple_chart_config);
+</script>
+  </body>
+</html>
