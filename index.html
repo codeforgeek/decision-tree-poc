@@ -12,9 +12,9 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/treant-js-master/Treant.css" type="text/css"/>
-    <script src="/treant-js-master/vendor/raphael.js"></script>
-    <script src="/treant-js-master/Treant.js"></script>
+    <link rel="stylesheet" href="./treant-js-master/Treant.css" type="text/css"/>
+    <script src="./treant-js-master/vendor/raphael.js"></script>
+    <script src="./treant-js-master/Treant.js"></script>
     <script>
       $(document).ready(function() {
         $('#decisiontreetest').hide();
@@ -24,14 +24,56 @@
         $('#executewithmasterresult').hide();
         $('#test1result').hide();
         $('#test2result').hide();
+        var upcTest = false;
+        var nameTest = false;
+        var priceTest = false;
+
+        $('#upc').change(function() {
+          if(this.checked) {
+            upcTest = true;
+          } else {
+            alert(upcTest);
+          }
+        });
+
+        $('#namematch').change(function() {
+          if(this.checked) {
+            nameTest = true;
+          } else {
+            nameTest = false;
+          }
+        });
+
+        $('#pricerange').change(function() {
+          if(this.checked) {
+            priceTest = true;
+          } else {
+            priceTest = false;
+          }
+        });
+
         $('#execute').click(function(e) {
+          if(!upcTest && !nameTest && !priceTest) {
+            alert('Please select one test');
+            return;
+          }
+          var nodeName = '';
           $('#rundecisiontree').hide();
           $('#executewithmasterresult').hide();
           $('#decisiontreetest').hide();
           $('#execute').hide();
+          if(upcTest) {
+            nodeName = "UPC MATCH";
+          }
+          if(nameTest) {
+            nodeName = "Name Match";
+          }
+          if(priceTest) {
+            nodeName = "Price Range";
+          }
          child1 = {
               parent: parent_node,
-              text: { name: "UPC MATCH" }
+              text: { name: nodeName }
           };
           child2 = {
             parent: child1,
@@ -50,9 +92,19 @@
           $('#executewithmasterresult').hide();
           $('#test1result').hide();
           $('#test2result').hide();
+          var nodeName = "";
+          if(upcTest) {
+            nodeName = "UPC Match";
+          }
+          if(nameTest) {
+            nodeName = "Name Match";
+          }
+          if(priceTest) {
+            nodeName = "Price Test";
+          }
           child5 = {
               parent: parent_node,
-              text: { name: "Name Match" }
+              text: { name: nodeName }
           };
           child6 = {
             parent: child5,
@@ -63,6 +115,8 @@
           my_chart.tree.reload();
           $('#test1result').hide();
           $('#runwiththisresult').hide();
+          $('#saveresult').show();
+          $('#executewithmaster').hide();
           $('#executewithmasterresult').show();
         });
 
@@ -91,9 +145,19 @@
           $('#decisiontreetest').hide();
           $('#executewithmasterresult').hide();
           $('#test1result').hide();
+          var nodeName = "";
+          if(upcTest) {
+            nodeName = "Name Match";
+            $('#namematch').prop('checked',true);
+          } else if(nameTest) {
+            nodeName = "Price Range";
+            $('#pricerange').prop('checked',true);
+          } else {
+            nodeName = 'Price Range';
+          }
           child3 = {
               parent: child2,
-              text: { name: "Name Match" }
+              text: { name: nodeName }
           };
           child4 = {
             parent: child3,
@@ -237,21 +301,21 @@
         <div class="input-group">
           <span class="input-group-addon">
             UPC Match
-            <input type="checkbox" aria-label="">
+            <input type="radio" aria-label="" id='upc' name='test'>
           </span>
         </div>
         <p></p>
         <div class="input-group">
           <span class="input-group-addon">
             Name Match
-            <input type="checkbox" aria-label="">
+            <input type="radio" aria-label="" id='namematch' name='test'>
           </span>
         </div>
         <p></p>
         <div class="input-group">
           <span class="input-group-addon">
             Price Range
-            <input type="checkbox" aria-label="">
+            <input type="radio" aria-label="" id='pricerange' name='test'>
           </span>
         </div>
       </div>
